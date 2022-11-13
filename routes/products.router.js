@@ -4,6 +4,8 @@ const ProductsService = require("../service/product.service");
 const service = new ProductsService();
 const router = express.Router();
 
+// GET /api/v1/products
+// GET /api/v1/products?size=5&offset=0
 router.get('/', (req, res) => {
   const { size, offset } = req.query;
   const limit = size;
@@ -11,6 +13,7 @@ router.get('/', (req, res) => {
   res.json(products);
 });
 
+// GET /api/v1/products/1
 router.get('/:id', (req, res) => {
   try {
     const { id } = req.params;
@@ -23,6 +26,7 @@ router.get('/:id', (req, res) => {
   }
 })
 
+// POST /api/v1/products
 router.post('/', (req, res) => {
   try {
     const body = req.body;
@@ -35,6 +39,7 @@ router.post('/', (req, res) => {
   }
 })
 
+// PATCH /api/v1/products/1
 router.patch('/:id', (req, res) => {
   try {
     const { id } = req.params;
@@ -48,6 +53,7 @@ router.patch('/:id', (req, res) => {
   }
 });
 
+// DELETE /api/v1/products/1
 router.delete('/:id', (req, res) => {
   try {
     const { id } = req.params;

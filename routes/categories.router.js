@@ -4,6 +4,8 @@ const router = express.Router();
 const CategoriesService = require('../service/categories.service')
 const service = new CategoriesService();
 
+// GET /api/v1/categories
+// GET /api/v1/categories?size=5&offset=0
 router.get('/', (req, res) => {
   const { size, offset } = req.query;
   const limit = size;
@@ -11,6 +13,7 @@ router.get('/', (req, res) => {
   res.json(categories);
 })
 
+// GET /api/v1/categories/1
 router.get('/:id', (req, res) => {
   try {
     const { id } = req.params;
@@ -23,14 +26,7 @@ router.get('/:id', (req, res) => {
   }
 })
 
-// router.get('/:categoryId/products/:productId', (req, res) => {
-//   const { categoryId, productId } = req.params
-//   res.json({
-//     categoryId,
-//     productId
-//   })
-// })
-
+// POST /api/v1/categories
 router.post('/', (req, res) => {
   try {
     const body = req.body;
@@ -43,6 +39,7 @@ router.post('/', (req, res) => {
   }
 })
 
+// PATCH /api/v1/categories/1
 router.patch('/:id', (req, res) => {
   try {
     const { id } = req.params;
@@ -56,6 +53,7 @@ router.patch('/:id', (req, res) => {
   }
 });
 
+// DELETE /api/v1/categories/1
 router.delete('/:id', (req, res) => {
   try {
     const { id } = req.params;
