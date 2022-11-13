@@ -25,12 +25,16 @@ class ProductsService {
     return newProduct;
   }
 
-  findAll() {
-    return this.products;
+  findAll(limit, offset) {
+    return limit && offset ? (this.products).slice(offset, ( offset + limit)) : this.products;
   }
 
   findOne(id) {
-    return this.products.find(item => item.id == id);
+    const product = this.products.find(item => item.id == id);
+    if (product == undefined) {
+      throw new Error('Product not found');
+    }
+    return product
   }
 
   update(id, changes) {

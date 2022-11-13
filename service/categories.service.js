@@ -26,12 +26,16 @@ class CategoriesService {
     return newCategory;
   }
 
-  findAll() {
-    return this.categories;
+  findAll(limit, offset) {
+    return limit && offset ? this.categories.slice(offset, limit) : this.categories;
   }
 
   findOne(id) {
-    return this.categories.find(item => item.id == id);
+    const category = this.categories.find(item => item.id == id);
+    if (category == undefined) {
+      throw new Error('Category not found');
+    }
+    return category;
   }
 
   update(id, changes) {

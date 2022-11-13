@@ -5,7 +5,9 @@ const service = new ProductsService();
 const router = express.Router();
 
 router.get('/', (req, res) => {
-  const products = service.findAll();
+  const { size, offset } = req.query;
+  const limit = size;
+  const products = service.findAll(limit, offset);
   res.json(products);
 });
 

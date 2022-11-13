@@ -5,7 +5,9 @@ const CategoriesService = require('../service/categories.service')
 const service = new CategoriesService();
 
 router.get('/', (req, res) => {
-  const categories = service.findAll();
+  const { size, offset } = req.query;
+  const limit = size;
+  const categories = service.findAll(limit, offset);
   res.json(categories);
 })
 
