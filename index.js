@@ -7,6 +7,8 @@ app.get('/', (req, res) => {
   res.send('Server running');
 })
 
+app.use(express.json())
+
 app.listen(port, () => {
   console.log(`Server running in http://localhost:${port}`);
 })
