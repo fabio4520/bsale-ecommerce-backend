@@ -1,60 +1,69 @@
 const express = require('express');
 const {faker} = require('@faker-js/faker');
 const router = express.Router();
+const CategoriesService = require('../service/categories.service')
+const service = new CategoriesService();
 
 router.get('/', (req, res) => {
-  const categories = [];
-  const { size } = req.query;
-  const limit = size || 10;
-  for (let index = 0; index < limit; index++) {
-    categories.push({
-      id: index,
-      name: faker.commerce.productAdjective()
-    })
-  }
+  const categories = service.findAll();
   res.json(categories);
 })
 
 router.get('/:id', (req, res) => {
-  const { id } = req.params;
-  res.json({
-    id,
-    category: faker.commerce.productAdjective()
-  })
+  try {
+    const { id } = req.params;
+    const category = service.findOne(id);
+    res.json(category)
+  } catch (error) {
+    res.status(404).json({
+      message: error.message
+    })
+  }
 })
 
-router.get('/:categoryId/products/:productId', (req, res) => {
-  const { categoryId, productId } = req.params
-  res.json({
-    categoryId,
-    productId
-  })
-})
+// router.get('/:categoryId/products/:productId', (req, res) => {
+//   const { categoryId, productId } = req.params
+//   res.json({
+//     categoryId,
+//     productId
+//   })
+// })
 
 router.post('/', (req, res) => {
-  const body = req.body;
-  res.json({
-    message: 'created',
-    data: body
-  });
+  try {
+    const body = req.body;
+    const newCategory = service.create(body);
+    res.status(201).json(newCategory);
+  } catch (error) {
+    res.status(404).json({
+      message: error.message
+    })
+  }
 })
 
 router.patch('/:id', (req, res) => {
-  const { id } = req.params;
-  const body = req.body;
-  res.json({
-    message: 'update',
-    data: body,
-    id,
-  });
+  try {
+    const { id } = req.params;
+    const body = req.body;
+    const product = service.update(id, body);
+    res.json(product); 
+  } catch (error) {
+    res.status(404).json({
+      message: error.message
+    })
+  }
 });
 
 router.delete('/:id', (req, res) => {
-  const { id } = req.params;
-  res.json({
-    message: 'deleted',
-    id,
-  });
+  try {
+    const { id } = req.params;
+    const answer = service.delete(id);
+    res.json(answer); 
+  } catch (error) {
+    res.status(404).json({
+      message: error.message
+    })
+  }
 });
 
 module.exports = router;
