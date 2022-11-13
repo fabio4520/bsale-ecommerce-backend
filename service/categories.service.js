@@ -1,5 +1,6 @@
-const {faker} = require('@faker-js/faker');
 
+const connection = require('../config/config')
+  
 class CategoriesService {
 
   constructor(){
@@ -8,13 +9,12 @@ class CategoriesService {
   }
 
   generate() {
-    const limit = 10;
-    for (let index = 0; index < limit; index++) {
-      this.categories.push({
-        id: index,
-        name: faker.commerce.productAdjective()
-      });
-    }
+    connection.query('SELECT * FROM category ORDER BY id ASC', (error, results) => {
+      if (error) {
+        throw error
+      }
+      this.categories = results;
+    })
   }
 
   create(data) {

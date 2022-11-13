@@ -1,4 +1,4 @@
-const {faker} = require('@faker-js/faker');
+const connection = require('../config/config')
 
 class ProductsService {
 
@@ -8,15 +8,12 @@ class ProductsService {
   }
 
   generate() {
-    const limit = 10;
-    for (let index = 0; index < limit; index++) {
-      this.products.push({
-        id: index,
-        name: faker.commerce.productName(),
-        price: parseInt(faker.commerce.price(), 10),
-        image: faker.image.imageUrl(),
-      });
-    }
+    connection.query('SELECT * FROM product ORDER BY id ASC', (error, results) => {
+      if (error) {
+        throw error
+      }
+      this.products = results;
+    })
   }
 
   create(data) {
